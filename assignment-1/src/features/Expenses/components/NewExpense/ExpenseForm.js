@@ -2,20 +2,21 @@ import React, { useState } from "react";
 
 // import './ExpenseForm.css';
 
-function formatDate(date) {
-  var d = new Date(date),
-    month = "" + (d.getMonth() + 1),
-    day = "" + d.getDate(),
-    year = d.getFullYear();
+// function formatDate(date) {
+//   var d = new Date(date),
+//     month = "" + (d.getMonth() + 1),
+//     day = "" + d.getDate(),
+//     year = d.getFullYear();
 
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
+//   if (month.length < 2) month = "0" + month;
+//   if (day.length < 2) day = "0" + day;
 
-  return [year, month, day].join("-");
-}
+//   return [year, month, day].join("-");
+// }
 
 const ExpenseForm = (props) => {
-  var today = formatDate(new Date());
+  // var today = formatDate(new Date());
+  var today = new Date();
 
   //   const [title, setTitle] = useState(""); //this is not a bad approach at all, it is just not object-wise
   //   const [amount, setAmount] = useState(0);
@@ -43,7 +44,8 @@ const ExpenseForm = (props) => {
     });
   };
   const onDateChangeHandler = (e) => {
-    var formatted = formatDate(e.target.value);
+    // var formatted = formatDate(e.target.value);
+    var formatted = e.target.value;
 
     setUserInput({
       ...userInput,
@@ -54,8 +56,12 @@ const ExpenseForm = (props) => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
-    var utc = new Date(userInput.date).toISOString();
-    let formInput = { ...userInput, date: utc };
+    var datey = new Date(userInput.date);
+    let formInput = {
+      ...userInput,
+      date: datey,
+      amount: parseInt(userInput.amount),
+    };
 
     props.onExpenseSubmitted(formInput);
 

@@ -8,14 +8,17 @@ function Expenses(props) {
   const [selectedYear, setSelectedYear] = useState(2022);
 
   const onFilterYearChangedHandler = (selectedFilterYear) => {
-      setSelectedYear(selectedFilterYear);
+    setSelectedYear(selectedFilterYear);
     console.log(selectedFilterYear);
   };
 
   return (
     <div>
       <div>
-        <ExpensesFilter onFilterYearChanged={onFilterYearChangedHandler} selectedYear={selectedYear} />
+        <ExpensesFilter
+          onFilterYearChanged={onFilterYearChangedHandler}
+          selectedYear={selectedYear}
+        />
 
         {props.expenses.map((item) => (
           <ExpenseItem

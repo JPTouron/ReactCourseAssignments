@@ -6,7 +6,9 @@ function App() {
   const [expenses, setExpense] = useState(getExpenses());
 
   const onExpenseSubmittedHandler = (newExpense) => {
-    setExpense([...expenses, newExpense]);
+    setExpense((prevExpenses) => {
+      return [newExpense, ...prevExpenses];
+    });
     console.log("----------------------");
   };
 
