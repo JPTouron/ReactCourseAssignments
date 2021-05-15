@@ -1,12 +1,19 @@
 import Expenses from "./features/Expenses/components/Expenses/Expenses";
-import logo from "./logo.svg";
+import NewExpense from "./features/Expenses/components/NewExpense/NewExpense";
+import { useState } from "react";
 
 function App() {
-  const expenses = getExpenses();
+  const [expenses, setExpense] = useState(getExpenses());
+
+  const onExpenseSubmittedHandler = (newExpense) => {
+    setExpense([...expenses, newExpense]);
+    console.log("----------------------");
+  };
 
   return (
     <div className="App">
-      <Expenses expenses={expenses}/>
+      <NewExpense onExpenseSubmitted={onExpenseSubmittedHandler} />
+      <Expenses expenses={expenses} />
     </div>
   );
 }

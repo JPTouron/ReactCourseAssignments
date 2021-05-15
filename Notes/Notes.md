@@ -1,12 +1,15 @@
 v# JavaScript Review:
 
 ## Tooling
+
     jsbin.com
 
 ## Let & Const
+
     Let instead of var
 
 ## Arrow functions
+
     const myfunc = ([argument]) => {...}
     examples:
     const myfunc = (name) => {...}
@@ -24,6 +27,7 @@ v# JavaScript Review:
     howev, 'this' would retain context within arrow functions
 
 ## Export + Import instructions
+
     const person = {name:'max'}
     const myfunction = () =>{...}
     export person
@@ -39,7 +43,7 @@ v# JavaScript Review:
 
     class Person extends something{
         cosntructor (){
-            super() // calls super ctor, in case we inherit, no need to use this syntax in ES7 
+            super() // calls super ctor, in case we inherit, no need to use this syntax in ES7
             this.name = 'Max'
         }
         call = () =>{console.log(this.name)}
@@ -68,6 +72,7 @@ v# JavaScript Review:
         usage:
 
 ## Destructuring
+
     [a,b] = ['hello','max']
     console.log(a); // hello
     console.log(b); // max
@@ -76,6 +81,7 @@ v# JavaScript Review:
     console.log(name); // max
 
 ## Reference types
+
     Objects + Arrays
 
     const person = {name: 'max', age:....}
@@ -85,23 +91,29 @@ v# JavaScript Review:
         use .map () -> array.map(num) {return num}
 
 # React:
+
 ## Creating an app
+
     tool to use:
         create-react-app (github)
         npm package to install and use
-    
-        eg: 
+
+        eg:
         **npx create-react-app my-app
         cd my-app
         npm start**
 
 ## App anatomy
+
     src/app.js -> main file, it's a component...
     src/index.js -> startup for the app, invokes ReactDOM.render(<App/> ...) to  insert the app component in the html
 
 ## How React works
+
 ### Components anatomy:
----    
+
+---
+
     // all custom components gotta by pascal cased
     import './path-to-css/styles.css' //in case we need css
     function MyComponent(){
@@ -112,7 +124,7 @@ v# JavaScript Review:
     }
 
     export MyComponent;
-    
+
     ...wherever you wanna use yer component...
     import MyComponent from './components/MyComponent'
 
@@ -120,8 +132,11 @@ v# JavaScript Review:
         return (<div><MyComponent></MyComponent></div>);
 
     }
+
 ### Props:
----    
+
+---
+
     props are attribs (html attribs)
     eg:
     <MyComponent propA={valueA} propB={valueB} />
@@ -134,6 +149,55 @@ v# JavaScript Review:
         <div>{prop.valueA}</div>
         <div>{prop.valueB}</div>
         );
+    }
 
+## Passing arguments beyond props
+
+### props.children:
+
+---
+
+    we can setup a component that would allow that whatever is put (html-wise) between the comoponent's opening and closing tags gets passed around as parameters
+    these things usually are used to conform containers of list or stuff
+    the plus side is that it may gain some DRY by coalescing duplicated styles/html into a single component
+
+    definition:
+    function Card(props){//the 'container' for whatev component
+        return (<div className='no-shiv'>{props.children}</div>)
+    }
+
+    usage:
+    function CompList(props){
+        return (
+        <Card>
+            //this contained stuff would be rendered within the <div> of the Card component
+            <ComponentA/>
+            <ComponentB/>
+            <ComponentC/>
+
+            <div>a custom html...</div>
+        </Card>
+        )
 
     }
+
+## State
+
+### useState
+
+    it is a type of hook
+    has to be called within the components' defining function (not even in a nested function)
+
+    const [someVar, setSomeVar] = useState(''); //we just created a variable (someVar) which state is gonna be managed by react, and initialized the state to ''
+    const [title, setTitle] = useState(props.title); //created a var called title and initialized as props.title
+
+    first part is the current state of a value,
+    second part is a function through wich we can update the value of a defined var
+
+    usage:
+
+    const [title, setTitle] = useState(props.title); 
+
+    const clickHandler = () =>{ setTitle('new value') }
+    invoking the setTitle method not only refreshes the var value and the component is reloaded
+    WARNING: invoking setTitle SCHEDULES the var value update, but doesn't do that right away!
