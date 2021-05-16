@@ -196,8 +196,79 @@ v# JavaScript Review:
 
     usage:
 
-    const [title, setTitle] = useState(props.title); 
+    const [title, setTitle] = useState(props.title);
 
     const clickHandler = () =>{ setTitle('new value') }
     invoking the setTitle method not only refreshes the var value and the component is reloaded
     WARNING: invoking setTitle SCHEDULES the var value update, but doesn't do that right away!
+
+# Side Effects
+
+## UseEffect
+
+    executes a function based on whenver a list of provided dependencies gets updated
+    IMPORTANT: the function executes ONLY when depdencies change AND AFTER all the components get re-evaluated (refreshed)
+
+    useEffect(()=>{}, []);
+
+    in general terms, we use useEffect whenever we are dealing with anything that does not have to do with rendering (saving to local storage, and such)
+
+    the dependencies items are usually whatever we are using within the useEffect arrow function
+
+    this whole thing can be thought of an observer mechanism that executes a command (the arrow function) whenever the state of any variable declared as a dependency changes
+
+    - You DON'T need to add state updating functions (as we did in the last lecture with setFormIsValid): - React guarantees that those functions never change, hence you don't need to add them as dependencies - (you could though)
+
+    - You also DON'T need to add "built-in" APIs or functions like fetch(), localStorage etc (functions and features built-into the browser and hence available globally): These browser APIs / global functions are not related to the React component render cycle and they also never change
+
+    - You also DON'T need to add variables or functions you might've defined OUTSIDE of your components (e.g. - if you create a new helper function in a separate file): Such functions or variables also are not - created inside of a component function and hence changing them won't affect your components (components - won't be re-evaluated if such variables or functions change and vice-versa)
+
+### CleanUp
+---
+    is a technique where we may return a function within the useEffect() hook that will execute AFTER the intended main function has run
+
+    Note that this happens EXCEPT for the first run, the first run  the cleanUp defined method will not execute
+
+    It also runs whenever the component dismounts
+
+# UseReducer
+    is a 'replacement' for useState, though it is more complex than useState
+
+    is typically used when a state (think of a single var ) depends on another state (another var even in the same component), eg:
+    const [state1,setState1] = useState();
+    const [state2,setState2] = useState();
+    ....
+    setState1(state2);//here state1 depends on state2....
+
+# Redux
+    not related to useReducer(), it is an npm independent package: npm i redux
+    it also depends on node.js
+
+    Redux uses Reducer Functions, these are not hooks, but rather transform their input to something else
+
+    They are used to change / update data in the React's central store as components can subscribe to changes in that data but cannot change it directly themselves (they go through reducer functions)
+
+## On React
+    Basically we need to use package react-redux and import it
+    then we need to create a store and the subscribers and publishers are hidden away from our prod code 
+    since it is implemented by the react-redux lib
+
+# Routing
+
+    Yet another package: react-router-dom (yup, -dom..., there is a react-router but we dont need that)
+    there are other libs we can install for this crap such as: react-navigation (for native)
+## Routes definition
+    create a component with a react-navigation function: const YourNavComponent = createStackNavigator({...})
+    parameter is simply an object that maps a key to a component, so you end up with smthng like:
+    myScreen1:Screen1Component
+
+    thenn you gotta export that shit with smthg like: export default createAppContainer(YourNavComponent), calling the function allows the framework to find your navigator
+
+### Methods
+--
+navigate: moves to next screen and readies a back button 
+pop() + goBack(): do the same, trigger a goBack() invoke
+popToTop(): moves all the way back of a stack to the first screen that launched the whole stack
+replace(): moves to a next screen but without a Back button (ie: on a login screen, dont wanna go back)
+
+
